@@ -1,0 +1,28 @@
+{% load static %}<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Overview{% endblock %} · Rental Property Manager</title>
+<link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+<link rel="stylesheet" href="{% static 'css/app.css' %}"><script src="{% static 'js/app.js' %}" defer></script>
+</head><body><a class="skip-link" href="#main">Skip to content</a>
+<div class="app-shell">
+<aside class="sidebar" id="sidebar">
+<a class="brand" href="{% url 'dashboard' %}"><span class="brand-mark">{% include 'components/icon.html' with name='building' %}</span><span>Rental Property<br><strong>Manager<span class="brand-dot">.</span></strong></span></a>
+<div class="workspace-label">YOUR WORKSPACE</div>
+<nav class="nav" aria-label="Main navigation">
+<a href="{% url 'dashboard' %}" class="{% if section == 'dashboard' %}active{% endif %}" {% if section == 'dashboard' %}aria-current="page"{% endif %}>{% include 'components/icon.html' with name='grid' %}Overview</a>
+<a href="{% url 'record_list' 'properties' %}" class="{% if section == 'properties' %}active{% endif %}">{% include 'components/icon.html' with name='building' %}Properties</a>
+<a href="{% url 'record_list' 'tenants' %}" class="{% if section == 'tenants' %}active{% endif %}">{% include 'components/icon.html' with name='users' %}Tenants</a>
+<a href="{% url 'record_list' 'leases' %}" class="{% if section == 'leases' %}active{% endif %}">{% include 'components/icon.html' with name='document' %}Leases</a>
+<a href="{% url 'record_list' 'payments' %}" class="{% if section == 'payments' %}active{% endif %}">{% include 'components/icon.html' with name='wallet' %}Payments</a>
+<div class="nav-divider"></div>
+<a href="{% url 'rent_roll' %}" class="{% if section == 'rent_roll' %}active{% endif %}">{% include 'components/icon.html' with name='chart' %}Rent ledger</a>
+</nav>
+<div class="sidebar-bottom"><div class="sidebar-note"><span class="little-spark">✳</span><strong>A little more organized.<br>A lot more peace of mind.</strong><p>Your portfolio, in focus.</p></div>
+<div class="profile"><span class="avatar">{{ user.username|first|upper }}</span><div><strong>{{ user.first_name|default:user.username }}</strong><small>Property manager</small></div><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="icon-button" title="Sign out" aria-label="Sign out">{% include 'components/icon.html' with name='logout' %}</button></form></div></div>
+</aside>
+<div class="main-wrap"><header class="topbar"><div class="topbar-left"><button class="icon-button menu-toggle" aria-label="Toggle navigation" aria-controls="sidebar" aria-expanded="false">{% include 'components/icon.html' with name='menu' %}</button><span class="topbar-label">Workspace</span><span class="breadcrumb-slash">/</span><strong>{% if section == 'dashboard' %}Overview{% elif section == 'rent_roll' %}Rent ledger{% else %}{{ section|title }}{% endif %}</strong></div><span class="topbar-date">{% include 'components/icon.html' with name='calendar' %}{{ today|date:"D, d M Y" }}</span></header>
+<main id="main" tabindex="-1">
+{% if messages %}<div class="messages" aria-live="polite">{% for message in messages %}<div class="message {{ message.tags }}">{% include 'components/icon.html' with name='info' %}<span>{{ message }}</span><button type="button" class="dismiss-message icon-button" aria-label="Dismiss message">×</button></div>{% endfor %}</div>{% endif %}
+{% block content %}{% endblock %}
+<footer class="footer"><span>Rental Property Manager</span><span>Built for the everyday details.</span></footer>
+</main></div></div></body></html>
