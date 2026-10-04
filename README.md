@@ -1,12 +1,12 @@
-﻿# Rental Property Manager
+# Rental Property Manager
 
-A complete Django portfolio project for managing rental properties, tenants, leases, and rent payments. Built to be easy to run, understand, and demonstrate in a junior developer interview.
+A Django web application for managing rental properties, tenants, leases, and rent payments, with a responsive dashboard, monthly rent reporting, and CSV export.
 
 ![Dashboard](docs/screenshots/dashboard.jpg)
 
-## Open the project
+## Run locally
 
-On this computer, everything is installed in **D:\rental-property-manager**.
+Clone this repository and run **setup.cmd** once to install dependencies and create the demo database. Then:
 
 1. Double-click **start.cmd**.
 2. Open **http://127.0.0.1:8000** if the browser does not open automatically.
@@ -51,14 +51,15 @@ No Node.js, React, external database server, paid service, CDN, or API key is re
 
 Django 5.2 supports Python 3.12: [official release notes](https://docs.djangoproject.com/en/5.2/releases/5.2/).
 
-## Setup on another Windows computer
+## Setup on Windows
 
 Install Python 3.12 or a compatible Python version first, then double-click **setup.cmd**. It creates a local virtual environment, installs the pinned dependencies, migrates the database, and creates the demo portfolio.
 
 Equivalent PowerShell commands:
 
 ```powershell
-cd D:\rental-property-manager
+git clone https://github.com/MohammedAdel2001/rental-property-manager.git
+cd rental-property-manager
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe manage.py migrate
@@ -120,10 +121,9 @@ rentals/
 templates/              Server-rendered pages and reusable components
 static/                 Local CSS, JavaScript, SVG artwork
 scripts/launch.py       Local launcher
-docs/                   Interview guide and screenshots
+docs/screenshots/       Application screenshots
 ```
 
-Start reading in this order: models â†’ forms â†’ services â†’ views â†’ templates â†’ tests. 
 
 ## Configuration
 
@@ -140,17 +140,8 @@ Environment variables are optional for local use:
 
 ## Scope and future improvements
 
-This is a local learning and interview project. It does not move money, process cards, send reminders, upload documents, prorate rent, maintain an audit log, or manage maintenance tickets.
+Payments are recorded manually. Online payment processing, reminders, document uploads, rent proration, audit logging, and maintenance tickets are outside the current feature set.
 
 SQLite and application validation suit a small demonstration. Database constraints enforce positive amounts and date ordering, while cross-row overlap and payment-total rules are checked by forms/model validation. Concurrent production writes require stronger transactional locking or PostgreSQL constraints. Django's `save()` does not automatically call `full_clean()`; scripts that create records must validate them, as the demo command does for leases and payments.
 
 Before public deployment, use a new secret, disable debug, remove/change demo credentials, use HTTPS and a production WSGI server, configure static file serving, and arrange database backups. Deployment is intentionally outside the local demo setup.
-
-## Suggested CV entry
-
-**Rental Property Manager â€” Django, Python, SQLite**
-
-Built a responsive property management application with authenticated, owner-scoped CRUD workflows for properties, tenants, leases, and rent payments. Implemented lease conflict validation, partial-payment tracking, monthly reporting, CSV export, and an automated regression test suite.
-
-Use this description after you understand and can demonstrate the implementation. No public deployment or GitHub publication is implied.
-
